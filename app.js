@@ -33,7 +33,7 @@ mongoose
 
 // routes
 app.get("*", checkUser);
-app.get("/", (req, res) => res.render("home"));
+app.get("/", (req, res) => { console.log(res.locals.user); res.render("home") });
 app.get("/smoothies", requireAuth, (req, res) => res.render("smoothies"));
 app.use(authRoutes);
 

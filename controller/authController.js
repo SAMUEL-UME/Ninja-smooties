@@ -35,7 +35,7 @@ const handleErrors = (err) => {
 };
 
 // create json web token
-const maxAge = 3 * 24 * 60 * 60;
+const maxAge = 1 * 60 * 60;
 const createToken = (id) => {
   console.log("We made you a webtoken");
   return jwt.sign({ id }, "net ninja secret", {
