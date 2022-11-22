@@ -3,16 +3,17 @@ const jwt = require("jsonwebtoken");
 
 // handle errors
 const handleErrors = (err) => {
-  console.log(err.message, err.code);
+  // console.log(err.message);
+
   let errors = { email: "", password: "" };
 
   //incorrect email when loggin in
-  if (err.message === "incorrect email") {
-    errors.email = "That email is not registered ";
+  if (err.message === "Incorrect email") {
+    errors.email = "User not found";
   }
   //incorrect password when loggin in
-  if (err.message === "incorrect password") {
-    errors.password = "That password is not registered ";
+  if (err.message === "Incorrect password") {
+    errors.password = "Incorrect password";
   }
 
   // duplicate email error
@@ -23,10 +24,7 @@ const handleErrors = (err) => {
 
   // validation errors
   if (err.message.includes("user validation failed")) {
-    // console.log(err);
     Object.values(err.errors).forEach(({ properties }) => {
-      // console.log(val);
-      // console.log(properties);
       errors[properties.path] = properties.message;
     });
   }
@@ -37,7 +35,7 @@ const handleErrors = (err) => {
 // create json web token
 const maxAge = 1 * 60 * 60;
 const createToken = (id) => {
-  console.log("We made you a webtoken");
+  // .log("We made you a webtoken");
   return jwt.sign({ id }, "net ninja secret", {
     expiresIn: maxAge,
   });
@@ -58,8 +56,8 @@ module.exports.signup_post = async (req, res) => {
   try {
     const user = await User.create({ email, password });
     const token = await createToken(user._id);
-    console.log(user._id);
-    console.log("we made you a webtoken");
+    // .log(user._id);
+    // .log("we made you a webtoken");
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({ user: user._id });
   } catch (err) {
@@ -77,6 +75,7 @@ module.exports.login_post = async (req, res) => {
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id });
   } catch (err) {
+    console.log(err.messagex);
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
