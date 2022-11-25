@@ -10,7 +10,6 @@ const requireAuth = (req, res, next) => {
       if (err) {
         next(err);
       } else {
-        res.redirect("/login");
         next();
       }
     });
