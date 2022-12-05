@@ -8,7 +8,7 @@ const requireAuth = (req, res, next) => {
   if (token) {
     jwt.verify(token, "net ninja secret", (err, decodedToken) => {
       if (err) {
-        next(err);
+        res.redirect("/login")
       } else {
         next();
       }
